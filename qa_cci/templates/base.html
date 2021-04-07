@@ -30,10 +30,10 @@
                     <a class="nav-link" href="{% url 'runAll' %}">Run ALL</a>
                 </li>
                 <li class="nav-item {{ completed }}">
-                    <a class="nav-link" href="">Run Custom</a>
+                    <a class="nav-link" href="{% url 'runCustom' %}">Run Custom</a>
                 </li>
                 <li class="nav-item {{ create }}">
-                    <a class="nav-link" href="">History</a>
+                    <a class="nav-link" href="{% url 'history' %}">History</a>
                 </li>
 
             </ul>

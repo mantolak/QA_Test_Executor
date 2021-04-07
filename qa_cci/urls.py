@@ -11,4 +11,6 @@ urlpatterns = [
     path('logout/', accounts.views.logoutuser, name='logout'),
     path('addToken/', accounts.views.addToken, name='addToken'),
     path('runall/', pipelines.views.runAll, name='runAll'),
+    path('runcustom/', pipelines.views.runCustom, name='runCustom'),
+    path('history/', pipelines.views.history, name='history'),
 ]
