@@ -1,0 +1,29 @@
+ {% extends 'base.html' %}
+    {% block content %}
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <div class="row justify-content-center mt-5">
+     <div class="col-md-7 text-center">
+
+         <h1>Simply Your Circle CI Test Executions</h1>
+         <p>Life is to short to execute all E2E test when you not need this.</p>
+         <p>We created <b><i>QA CCI Runner</i></b> to help you make your test execution quick and easy.</p>
+
+         {% if user.is_authenticated %}
+         <a role="button" class="btn btn-primary btn-lg" href="{% url 'home' %}">Start</a>
+         {% else %}
+         <a role="button" class="btn btn-primary btn-lg" href="{% url 'login' %}">Start</a>
+         {% endif %}
+     </div>
+ </div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ {% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px;
+        margin: auto;
+    }
+</style>
+<br xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<br>
+<br>
+<br>
+<br>
+<br>
+<body class="text-center">
+<main class="form-signin">
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-auto">
+            <img class="mb-4" src="{% static '15five.png' %}" width="150" height="45">
+            {% if error %}
+            <h1 class="h3 mb-3 fw-normal">{{ error }}</h1>
+            {% else %}
+            <h1 class="h3 mb-3 fw-normal">Add you Circle CI token</h1>
+            {% endif %}
+        </div>
+        <div class="form-floating">
+            <input type="text" name="cciToken" class="form-control form-control-sm" id="cciToken" placeholder="Circle CI Token" >
+            <label for="cciToken">Circle CI Token</label>
+        </div>
+        </br>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Add Token</button>
+    </form>
+    <hr>
+    <div class="text-center">
+        Already added? Go to <a href="{% url 'home' %}">Home </a>
+    </div>
+</main>
+</body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

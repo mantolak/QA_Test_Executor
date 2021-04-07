@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px;
+        margin: auto;
+    }
+</style>
+<br xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<br>
+<br>
+<br>
+<br>
+<br>
+<body class="text-center">
+<main class="form-signin">
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-auto">
+        <img class="mb-4" src="{% static '15five.png' %}" width="150" height="45">
+        <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+        </div>
+        <div class="form-floating">
+            <input type="text" name="username" class="form-control form-control-sm" id="userInput" placeholder="User Name" required>
+            <label for="userInput">User Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="password1" class="form-control" id="password1" placeholder="Password" required>
+            <label for="password1">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm Password" required>
+            <label for="password2">Confirm Password</label>
+        </div>
+        </br>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+    </form>
+    <hr>
+    <div class="text-center">
+        Do you already have an account? <a href="{% url 'login' %}">Login here</a>
+    </div>
+</main>
+</body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
