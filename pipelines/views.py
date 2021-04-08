@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import requests
@@ -13,8 +14,18 @@ def payload(sta = 'false', pro = 'false', ios = 'false'):
     return payload
 
 def payload_custom(env, dir):
-    payload_custom='{"branch": "cci_test", "parameters": {"workingdir": "'+dir+'", "run_smoke_custom": true, "run_smoke_ios_staging": false, "run_smoke_production": false, "run_smoke_staging": false, "working_env": "'+env+'"}}'
-    return payload_custom
+    #payload_custom='{"branch": "cci_test", "parameters": {"workingdir": "'+dir+'", "run_smoke_custom": true, "run_smoke_ios_staging": false, "run_smoke_production": false, "run_smoke_staging": false, "working_env": "'+env+'"}}'
+    payload_custom = {
+        "branch": "cci_test",
+        "parameters": {
+            "workingdir": dir,
+            "run_smoke_custom": True,
+            "run_smoke_ios_staging": False,
+            "run_smoke_production": False,
+            "run_smoke_staging": False,
+            "working_env": env}}
+    payload_json = json.dumps(payload_custom)
+    return payload_json
 
 @login_required
 def runAll(request):
