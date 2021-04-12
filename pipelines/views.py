@@ -61,6 +61,19 @@ def runCustom(request):
     }
     if request.method == 'GET':
         print(token[0])
+        url1 = "https://api.github.com/repos/15five/qa_e2e_test/branches"
+
+        payload={}
+        headers = {
+        'Authorization': 'token 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'
+        }
+
+        response = requests.request("GET", url1, headers=headers, data=payload)
+        ff = response.json()
+        print(len(ff))
+        for name in ff:
+            print(name['name'])
+        print(response.json()[3]['name'])
         return render(request, 'runCustom.html')
     else:
         print(list(request.POST.items()))
