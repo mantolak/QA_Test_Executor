@@ -5,6 +5,9 @@ import requests
 import accounts.models
 
 url = "https://circleci.com/api/v2/project/gh/15five/qa_e2e_test/pipeline"
+gh_branch = "https://api.github.com/repos/15five/qa_e2e_test/branches"
+e2e_path = "https://api.github.com/repos/15five/qa_e2e_test/contents/test/specs"
+ios_path = "https://api.github.com/repos/15five/qa_e2e_test/contents/test/specsMobile"
 
 def home(request):
     return render(request, 'home.html')
@@ -13,10 +16,9 @@ def payload(sta = 'false', pro = 'false', ios = 'false'):
     payload='{"branch": "cci_test", "parameters": {"workingdir": "feedback", "run_smoke_custom": false, "run_smoke_ios_staging": '+ios+', "run_smoke_production": '+pro+', "run_smoke_staging": '+sta+'}}'
     return payload
 
-def payload_custom(env, dir):
-    #payload_custom='{"branch": "cci_test", "parameters": {"workingdir": "'+dir+'", "run_smoke_custom": true, "run_smoke_ios_staging": false, "run_smoke_production": false, "run_smoke_staging": false, "working_env": "'+env+'"}}'
+def payload_custom(env, dir, branch="cci_test"):
     payload_custom = {
-        "branch": "cci_test",
+        "branch": branch,
         "parameters": {
             "workingdir": dir,
             "run_smoke_custom": True,
@@ -55,30 +57,28 @@ def runAll(request):
 @login_required
 def runCustom(request):
     token = (accounts.models.Accounts.objects.filter(user=request.user).values_list('token'))[0]
+    gh_token = (accounts.models.Accounts.objects.filter(user=request.user).values_list('gh_token'))[0]
     headers = {
         'Circle-Token': token[0],
         'Content-Type': 'application/json'
     }
+    gh_headers = {
+        'Authorization': f'token {gh_token[0]}'
+    }
     if request.method == 'GET':
-        print(token[0])
-        url1 = "https://api.github.com/repos/15five/qa_e2e_test/branches"
-
-        payload={}
-        headers = {
-        'Authorization': 'token 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'
-        }
-
-        response = requests.request("GET", url1, headers=headers, data=payload)
-        ff = response.json()
-        print(len(ff))
-        for name in ff:
-            print(name['name'])
-        print(response.json()[3]['name'])
-        return render(request, 'runCustom.html')
+        # print(token[0])
+        # print(gh_token[0])
+        response = requests.request("GET", gh_branch, headers=gh_headers, data={})
+        branches = response.json()
+        response = requests.request("GET", e2e_path, headers=gh_headers, data={})
+        e2e = response.json()
+        response = requests.request("GET", ios_path, headers=gh_headers, data={})
+        ios = response.json()
+        return render(request, 'runCustom.html', {'branches': branches, "e2e": e2e, "ios": ios})
     else:
         print(list(request.POST.items()))
-        print(payload_custom(request.POST['webenv'], request.POST['webdir']))
-        response = requests.request("POST", url, headers=headers, data=payload_custom(request.POST['webenv'], request.POST['webdir']))
+        print(payload_custom(request.POST['webenv'], request.POST['webdir'], request.POST['branch']))
+        response = requests.request("POST", url, headers=headers, data=payload_custom(request.POST['webenv'], request.POST['webdir'], request.POST['branch']))
         print(response.text)
         return redirect('home')
 
