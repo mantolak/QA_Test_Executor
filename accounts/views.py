@@ -47,9 +47,10 @@ def addToken(request):
         return render(request, 'addToken.html')
     elif request.POST['cciToken'] and Accounts.objects.filter(user=request.user).exists():
         return render(request, 'addToken.html', {'error': 'Token already exist !!!!'})
-    elif request.POST['cciToken']:
+    elif request.POST['cciToken'] and request.POST['ghToken']:
         token = Accounts()
         token.token = request.POST['cciToken']
+        token.gh_token = request.POST['cciToken']
         token.user = request.user
         token.save()
         return redirect('home')
