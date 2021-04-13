@@ -12,9 +12,19 @@ ios_path = "https://api.github.com/repos/15five/qa_e2e_test/contents/test/specsM
 def home(request):
     return render(request, 'home.html')
 
-def payload(sta = 'false', pro = 'false', ios = 'false'):
-    payload='{"branch": "cci_test", "parameters": {"workingdir": "feedback", "run_smoke_custom": false, "run_smoke_ios_staging": '+ios+', "run_smoke_production": '+pro+', "run_smoke_staging": '+sta+'}}'
-    return payload
+def payload(sta = False, pro = False, ios = False):
+    payload = {
+        "branch": "cci_test",
+        "parameters": {
+            "workingdir": "feedback",
+            "run_smoke_custom": False,
+            "run_smoke_ios_staging": ios,
+            "run_smoke_production": pro,
+            "run_smoke_staging": sta
+        }
+    }
+    payload_json = json.dumps(payload)
+    return payload_json
 
 def payload_custom(env, dir, branch="cci_test"):
     payload_custom = {
@@ -42,17 +52,17 @@ def runAll(request):
         return render(request, 'runAll.html')
     elif 'staging' in request.POST:
         print(payload(sta='true'))
-        response = requests.request("POST", url, headers=headers, data=payload(sta='true'))
-        print(response.text)
-        return redirect('home')
+        response = requests.request("POST", url, headers=headers, data=payload(sta=True))
+        res = response.json()
+        return render(request, 'runAll.html', {'res': res})
     elif 'production' in request.POST:
-        response = requests.request("POST", url, headers=headers, data=payload(pro='true'))
-        print(response.text)
-        return redirect('home')
+        response = requests.request("POST", url, headers=headers, data=payload(pro=True))
+        res = response.json()
+        return render(request, 'runAll.html', {'res': res})
     elif 'ios' in request.POST:
-        response = requests.request("POST", url, headers=headers, data=payload(ios='true'))
-        print(response.text)
-        return redirect('home')
+        response = requests.request("POST", url, headers=headers, data=payload(ios=True))
+        res = response.json()
+        return render(request, 'runAll.html', {'res': res})
 
 @login_required
 def runCustom(request):
@@ -79,8 +89,8 @@ def runCustom(request):
         print(list(request.POST.items()))
         print(payload_custom(request.POST['webenv'], request.POST['webdir'], request.POST['branch']))
         response = requests.request("POST", url, headers=headers, data=payload_custom(request.POST['webenv'], request.POST['webdir'], request.POST['branch']))
-        print(response.text)
-        return redirect('home')
+        res = response.json()
+        return render(request, 'runCustom.html', {'res': res})
 
 @login_required
 def history(request):
