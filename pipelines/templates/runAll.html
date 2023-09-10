@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if res.state %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> Some info here soon <strong>{{res.state}}</strong> <strong>{{res.number}}.</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
 </br>
 </br>
 </br>

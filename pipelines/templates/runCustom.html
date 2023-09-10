@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if res.state %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> Some info here soon <strong>{{res.state}}</strong> <strong>{{res.number}}.</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
 </br>
 </br>
 </br>
@@ -27,8 +33,14 @@
             </br>
             <div class="row">
                 <div class="col-md-3 mx-auto">
-                    <label for="webenv" class="form-label">Add branch Name</label>
-                    <input type="text" name="branch" class="form-control" id="branche2e" placeholder="Do not use yet">
+                    <label for="branch" class="form-label">Select Branch</label>
+                    <select class="form-select" name="branch" id="branch" required="">
+                        <option value="">Choose...</option>
+                        <option value="master">master</option>
+                        {% for branch in branches %}
+                        <option value={{branch.name}}>{{branch.name}}</option>
+                        {% endfor %}
+                    </select>
                     </br>
                     <label for="webenv" class="form-label">Select Environment</label>
                     <select class="form-select" name="webenv" id="webenv" required="">
@@ -40,22 +52,9 @@
                     <label for="webdir" class="form-label">Select Test Section</label>
                     <select class="form-select" name="webdir" id="webdir" required="">
                         <option value="">Choose...</option>
-                        <option value="/15five">Checkin's</option>
-                        <option value="/1on1">1 on 1</option>
-                        <option value="/highFive">High Five</option>
-                        <option value="/objectives">Objectives</option>
-                        <option value="/reporting">Reporting</option>
-                        <option value="/questions">Questions</option>
-                        <option value="/feedback">Feedback</option>
-                        <option value="/engagement">Engagement</option>
-                        <option value="/bsr">Best Self Review</option>
-                        <option value="/integration">Integration</option>
-                        <option value="/myAccount">My Account</option>
-                        <option value="/managePeople">Manage People</option>
-                        <option value="/people">People</option>
-                        <option value="/company">Company</option>
-                        <option value="/home">Home</option>
-                        <option value="/profile">Profile</option>
+                        {% for path in e2e %}
+                        <option value=/{{path.name}}>{{path.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 </br>
@@ -72,8 +71,14 @@
             </br>
             <div class="row">
                 <div class="col-md-3 mx-auto">
-                    <label for="webenv" class="form-label">Add branch Name</label>
-                    <input type="text" name="branch" class="form-control" id="branchios" placeholder="Do not use yet">
+                    <label for="branch" class="form-label">Select Branch</label>
+                    <select class="form-select" name="branch" id="branchios" required="">
+                        <option value="">Choose...</option>
+                        <option value="master">master</option>
+                        {% for branch in branches %}
+                        <option value={{branch.name}}>{{branch.name}}</option>
+                        {% endfor %}
+                    </select>
                     </br>
                     <label for="webenv" class="form-label">Select Environment</label>
                     <select class="form-select" name="webenv" id="webiosenv" required="">
@@ -85,14 +90,9 @@
                     <label for="webdir" class="form-label">Select Test Section</label>
                     <select class="form-select" name="webdir" id="webiosdir" required="">
                         <option value="">Choose...</option>
-                        <option value="Mobile/checkin">Checkin's</option>
-                        <option value="Mobile/highFives">High Fives</option>
-                        <option value="Mobile/home">Home</option>
-                        <option value="Mobile/notifications">Notifications</option>
-                        <option value="Mobile/oneOnOne">1 on 1</option>
-                        <option value="Mobile/pulseDashboard">Pulse Dashboard</option>
-                        <option value="Mobile/settings">Settings</option>
-                        <option value="Mobile/team15Fives">Team 15 Fives</option>
+                        {% for path in ios %}
+                        <option value=Mobile/{{path.name}}>{{path.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 </br>
